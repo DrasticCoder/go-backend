@@ -31,8 +31,12 @@ func InitRoutes() *mux.Router {
 
 	// Protected endpoints (JWT & RBAC required)
 	api := router.PathPrefix("/api/v1").Subrouter()
-	api.Use(middleware.JwtVerify)
 	api.Handle("/users/profile", middleware.RBAC("admin", "premium")(http.HandlerFunc(controllers.UserProfile))).Methods(http.MethodGet)
-
+    // Protected route
+	api.Handle("/protected", middleware.JWTMiddleware(http.HandlerFunc(controllers.ProtectedRoute)))
+    
+    
+    
+    api.Use(middleware.JWTMiddleware) 
 	return router
 }
