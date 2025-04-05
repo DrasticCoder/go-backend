@@ -15,7 +15,7 @@ import (
 // @Failure 401 {string} string "Unauthorized"
 // @Router /api/v1/users/profile [get]
 func UserProfile(w http.ResponseWriter, r *http.Request) {
-	// For demo, we return static profile information
+	// For demo purposes, returning a static profile.
 	profile := map[string]string{
 		"user": "John Doe",
 		"role": "premium",

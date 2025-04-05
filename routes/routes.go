@@ -11,6 +11,7 @@ import (
 	httpSwagger "github.com/swaggo/http-swagger"
 )
 
+// InitRoutes configures all API routes including public, auth and protected routes.
 func InitRoutes() *mux.Router {
 	router := mux.NewRouter()
 
@@ -18,16 +19,19 @@ func InitRoutes() *mux.Router {
 	router.Use(middleware.ErrorHandler)
 	router.Use(middleware.RateLimiter)
 
-	// Swagger documentation route
+	// Swagger docs route
 	router.PathPrefix("/swagger/").Handler(httpSwagger.WrapHandler)
 
-	// Public endpoint: Health Check
+	// Health Check
 	router.HandleFunc("/api/v1/health", controllers.HealthCheck).Methods(http.MethodGet)
 
-	// Protected endpoints: JWT verification and RBAC enforced
+	// Auth endpoints (public)
+	router.HandleFunc("/api/v1/auth/register", controllers.RegisterUser).Methods(http.MethodPost)
+	router.HandleFunc("/api/v1/auth/login", controllers.LoginUser).Methods(http.MethodPost)
+
+	// Protected endpoints (JWT & RBAC required)
 	api := router.PathPrefix("/api/v1").Subrouter()
 	api.Use(middleware.JwtVerify)
-	// For example, only "admin" and "premium" roles can access the user profile
 	api.Handle("/users/profile", middleware.RBAC("admin", "premium")(http.HandlerFunc(controllers.UserProfile))).Methods(http.MethodGet)
 
 	return router
