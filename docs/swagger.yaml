@@ -1,0 +1,42 @@
+info:
+  contact: {}
+paths:
+  /api/v1/health:
+    get:
+      consumes:
+      - application/json
+      description: Returns OK if the server is running
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Health Check
+      tags:
+      - Health
+  /api/v1/users/profile:
+    get:
+      consumes:
+      - application/json
+      description: Returns the profile of the logged-in user
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            type: string
+      summary: Get User Profile
+      tags:
+      - User
+swagger: "2.0"
