@@ -1,0 +1,41 @@
+services:
+  app:
+    build: .
+    container_name: go-backend
+    ports:
+      - '8080:8080'
+    depends_on:
+      - db
+      - redis
+    environment:
+      - DB_USER=crmuser
+      - DB_PASSWORD=securepassword
+      - DB_NAME=crmdb
+      - DB_HOST=db
+      - DB_PORT=5432
+      - JWT_SECRET=supersecret
+      - REDIS_ADDR=redis:6379 # Point to the Redis container by name
+    restart: on-failure
+
+  db:
+    image: postgres:14
+    container_name: crm-postgres
+    ports:
+      - '5433:5432'
+    environment:
+      POSTGRES_USER: crmuser
+      POSTGRES_PASSWORD: securepassword
+      POSTGRES_DB: crmdb
+    volumes:
+      - dbdata:/var/lib/postgresql/data
+    restart: always
+
+  redis:
+    image: redis:6
+    container_name: crm-redis
+    ports:
+      - '6380:6379'
+    restart: always
+
+volumes:
+  dbdata:
