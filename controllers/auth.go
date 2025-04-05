@@ -3,6 +3,7 @@ package controllers
 import (
 	"encoding/json"
 	"net/http"
+	"os"
 	"strings"
 	"time"
 
@@ -13,7 +14,7 @@ import (
 	"go-backend/models"
 )
 
-var jwtSecret = []byte("supersecret")
+var jwtSecret = []byte(os.Getenv("JWT_SECRET"))
 
 type AuthPayload struct {
 	Email    string `json:"email"`

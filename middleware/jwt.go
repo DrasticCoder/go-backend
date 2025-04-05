@@ -4,12 +4,13 @@ import (
 	"context"
 	"fmt"
 	"net/http"
+	"os"
 	"strings"
 
 	"github.com/golang-jwt/jwt/v5"
 )
 
-var jwtSecret = []byte("supersecret")
+var jwtSecret = []byte(os.Getenv("JWT_SECRET"))
 
 type contextKey string
 
@@ -34,7 +35,7 @@ func JWTMiddleware(next http.Handler) http.Handler {
 			if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 				return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
 			}
-			return []byte("supersecret"), nil // 🧠 Make sure this matches your auth.go!
+			return jwtSecret, nil // 🧠 Make sure this matches your auth.go!
 		})
 
 		if err != nil {

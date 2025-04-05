@@ -15,7 +15,16 @@ import (
 	"go-backend/config"
 	"go-backend/models"
 	"go-backend/routes"
+
+	"github.com/joho/godotenv"
 )
+
+func init() {
+	if err := godotenv.Load(); err != nil {
+		log.Println("⚠️ .env file not found, using system environment variables")
+	}
+}
+
 
 func main() {
 	// Initialize Logger, Database and Cache in proper order
