@@ -2,6 +2,10 @@
 // @version 1.0
 // @description API Backend in Go with PostgreSQL, JWT, and Swagger
 // @host localhost:8080
+// @securityDefinitions.apikey BearerAuth
+// @in header
+// @name Authorization
+
 // @BasePath /
 
 package main

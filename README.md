@@ -74,13 +74,13 @@ go install github.com/swaggo/swag/cmd/swag@latest
 3. Generate Swagger docs:
 
 ```bash
-swag init
+swag init -g cmd/main.go
 ```
 
 4. Run the server:
 
 ```bash
-go run main.go
+go run cmd/main.go
 ```
 
 Server runs at `http://localhost:8080`

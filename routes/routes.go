@@ -18,6 +18,10 @@ func InitRoutes() *mux.Router {
 	RegisterHealthRoutes(router)
 	RegisterSwaggerRoutes(router)
 	RegisterAuthRoutes(router)
+	adminRouter := router.PathPrefix("/api/v1/admin").Subrouter()
+	adminRouter.Use(middleware.JWTMiddleware)
+	adminRouter.Use(middleware.RBAC("admin"))
+	RegisterAdminRoutes(adminRouter)
 	RegisterProtectedRoutes(router)
 
 	return router
