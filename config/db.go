@@ -1,34 +1,33 @@
 package config
 
 import (
-	"fmt"
+	"context"
 	"log"
 	"os"
+	"time"
 
-	"gorm.io/driver/postgres"
-	"gorm.io/gorm"
-	"gorm.io/gorm/logger"
+	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-var DB *gorm.DB
+var Mongo *mongo.Client
+var UserCollection *mongo.Collection
 
 func InitDB() {
-	user := os.Getenv("DB_USER")
-	password := os.Getenv("DB_PASSWORD")
-	host := os.Getenv("DB_HOST")
-	port := os.Getenv("DB_PORT")
-	dbname := os.Getenv("DB_NAME")
+    uri := os.Getenv("MONGO_URI")
+    if uri == "" {
+        uri = "mongodb://localhost:27017"
+    }
 
-	dsn := fmt.Sprintf(
-		"host=%s user=%s password=%s dbname=%s port=%s sslmode=disable",
-		host, user, password, dbname, port,
-	)
-	var err error
-	DB, err = gorm.Open(postgres.Open(dsn), &gorm.Config{
-		Logger: logger.Default.LogMode(logger.Info),
-	})
-	if err != nil {
-		log.Fatalf("Failed to connect to database: %v", err)
-	}
-	Logger.Info("Database connection established!")
+    ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+    defer cancel()
+
+    client, err := mongo.Connect(ctx, options.Client().ApplyURI(uri))
+    if err != nil {
+        log.Fatalf("❌ MongoDB connection error: %v", err)
+    }
+
+    Mongo = client
+    UserCollection = Mongo.Database("crm").Collection("users")
+    Logger.Info("📦 Connected to MongoDB!")
 }

@@ -13,7 +13,6 @@ import (
 	_ "go-backend/docs"
 
 	"go-backend/config"
-	"go-backend/models"
 	"go-backend/routes"
 
 	"github.com/joho/godotenv"
@@ -33,9 +32,9 @@ func main() {
 	config.InitCache()
 
 	// Auto-migrate models
-	if err := config.DB.AutoMigrate(&models.User{}); err != nil {
-		config.Logger.Fatalf("AutoMigrate failed: %v", err)
-	}
+	// if err := config.DB.AutoMigrate(&models.User{}); err != nil {
+	// 	config.Logger.Fatalf("AutoMigrate failed: %v", err)
+	// }
 
 	// Initialize all routes
 	router := routes.InitRoutes()
