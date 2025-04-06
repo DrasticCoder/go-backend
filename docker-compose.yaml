@@ -1,9 +1,14 @@
+version: '3.8'
+
 services:
   app:
-    build: .
+    build:
+      context: .
     container_name: go-backend
     ports:
       - '8080:8080'
+    env_file:
+      - .env
     depends_on:
       - db
       - redis
@@ -14,7 +19,7 @@ services:
       - DB_HOST=db
       - DB_PORT=5432
       - JWT_SECRET=supersecret
-      - REDIS_ADDR=redis:6379 # Point to the Redis container by name
+      - REDIS_ADDR=redis:6379
     restart: on-failure
 
   db:
