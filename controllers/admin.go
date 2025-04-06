@@ -24,7 +24,7 @@ import (
 // @Produce json
 // @Param page query int false "Page number (default: 1)"
 // @Param limit query int false "Items per page (default: 10)"
-// @Param search query string false "Search by email or username"
+// @Param search query string false "Search by email or name"
 // @Param sort query string false "Sort field (prefix with - for desc)"
 // @Param role query string false "Filter by role"
 // @Success 200 {object} map[string]interface{}
@@ -54,7 +54,7 @@ func ListUsers(w http.ResponseWriter, r *http.Request) {
 	if search := query.Get("search"); search != "" {
 		filter["$or"] = []bson.M{
 			{"email": bson.M{"$regex": search, "$options": "i"}},
-			{"username": bson.M{"$regex": search, "$options": "i"}},
+			{"name": bson.M{"$regex": search, "$options": "i"}},
 		}
 	}
 

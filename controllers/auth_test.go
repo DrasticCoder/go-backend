@@ -16,9 +16,8 @@ import (
 func TestRegisterUser(t *testing.T) {
 	// Cleanup test user
 	config.UserCollection.DeleteMany(nil, map[string]string{"email": "test@example.com"})
-
 	payload := models.User{
-		Username: "testuser",
+		Name:     "testuser",
 		Email:    "test@example.com",
 		Password: "Pa$$w0rd",
 		Role:     "admin",

@@ -29,7 +29,7 @@ type AuthPayload struct {
 // @Tags Auth
 // @Accept json
 // @Produce json
-// @Param user body models.User true "User Info (default: {username: 'john123', email: 'john@doe.com', password: 'Pa$$w0rd!', role: 'free'})"
+// @Param user body models.User true "User registration details"
 // @Success 201 {object} models.User
 // @Failure 400 {string} string "Bad Request"
 // @Router /api/v1/auth/register [post]

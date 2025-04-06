@@ -27,7 +27,7 @@ func TestMain(m *testing.M) {
 func seedAdmin() {
 	config.UserCollection.InsertOne(context.TODO(), models.User{
 		ID:        primitive.NewObjectID(),
-		Username:  "adminuser",
+		Name:  "adminuser",
 		Email:     "admin@crm.com",
 		Password:  "fakehashed",
 		Role:      "admin",
