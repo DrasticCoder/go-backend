@@ -35,7 +35,7 @@ func JWTMiddleware(next http.Handler) http.Handler {
 			if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 				return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
 			}
-			return jwtSecret, nil // 🧠 Make sure this matches your auth.go!
+			return jwtSecret, nil
 		})
 
 		if err != nil {
@@ -60,5 +60,3 @@ func JWTMiddleware(next http.Handler) http.Handler {
 		}
 	})
 }
-
-

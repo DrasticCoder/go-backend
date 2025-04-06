@@ -18,6 +18,7 @@ import (
 
 	"go-backend/config"
 	"go-backend/routes"
+	"go-backend/utils"
 
 	"github.com/joho/godotenv"
 )
@@ -39,6 +40,8 @@ func main() {
 	// if err := config.DB.AutoMigrate(&models.User{}); err != nil {
 	// 	config.Logger.Fatalf("AutoMigrate failed: %v", err)
 	// }
+	// Start post scheduler
+	utils.StartPostScheduler(config.Mongo.Database("crm"))
 
 	// Initialize all routes
 	router := routes.InitRoutes()

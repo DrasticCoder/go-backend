@@ -12,6 +12,7 @@ import (
 
 var Mongo *mongo.Client
 var UserCollection *mongo.Collection
+var PostCollection *mongo.Collection
 
 func InitDB() {
     uri := os.Getenv("MONGO_URI")
@@ -29,5 +30,6 @@ func InitDB() {
 
     Mongo = client
     UserCollection = Mongo.Database("crm").Collection("users")
+    PostCollection = Mongo.Database("crm").Collection("posts")
     Logger.Info("📦 Connected to MongoDB!")
 }
